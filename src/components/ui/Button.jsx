@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 function Button({children, onClick, variant="primary", isDisabled, isLoading }) {
 
     const variantClass = {
-
+        primary:"bg-green-600 hover:bg-green-700 text-white",
+        secondary:"bg-gray-600 hover:bg-gray-700 text-white",
+        danger:"bg-red-600 hover:bg-red-700 text-white",
     }
     return (
         <button className={`border-none rounded-md px-3 py-2 flex justify-center items-center gap-2 text-sm text-white ${variantClass[variant]}`}

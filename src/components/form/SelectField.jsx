@@ -1,17 +1,14 @@
 import PropTypes from "prop-types";
 
-
-function SelectField({value, onChange, name, required=false, type="select", label, isSubmitting, options =[]}) {
-    const showError = isSubmitting && required && !value;
+function SelectField({value, onChange, name, required=false, type="select", label, error, options =[]}) {
     return (
         <div className={`flex flex-col gap-[6px]`}>
             <div className={"flex gap-1"}>
-                <label htmlFor={name}>{label}</label>
-                {/*{required && <p className="text-red-500">*</p>}*/}
+                <label htmlFor={name}>{label}</label> {required && <p className="text-red-500">*</p>}
             </div>
             <select
                 type={type}
-                className={`px-2 py-2 text-sm border-[1.5px] focus:ring-2 rounded-md border-slate-200`}
+                className={`px-2 py-2 font-Poppins text-sm border-[1.5px] focus:ring-2 rounded-md ${error ? "border-red-500" : "border-slate-200"} `}
                 value={value}
                 onChange={onChange}
                 name={name}
@@ -21,7 +18,7 @@ function SelectField({value, onChange, name, required=false, type="select", labe
                     <option key={option.label} value={option.value}>{option.label}</option>
                 ))}
             </select>
-            {/*{showError && <span className="text-red-500 text-xs"> {label} is required</span>}*/}
+            {error && <span className="text-red-500 text-xs"> {error}</span>}
         </div>
     )
 }
@@ -37,6 +34,7 @@ SelectField.propTypes = {
     isSubmitting: PropTypes.bool,
     type: PropTypes.any,
     options: PropTypes.array,
+    error: PropTypes.string,
 }
 
 
