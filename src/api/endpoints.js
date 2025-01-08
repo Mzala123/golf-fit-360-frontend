@@ -33,6 +33,12 @@ export function updateCustomer(customerId, body){
 }
 // end customer endpoints
 
+export function getStartedMessage(){
+    return http.get(`/readGettingStartedMessage`, {
+        headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
+    })
+}
+
 export function getListFittingRequests(){
     return http.get(`/fittingRequest`, {
         headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
