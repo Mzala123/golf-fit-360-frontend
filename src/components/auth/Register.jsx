@@ -128,9 +128,6 @@ function Register() {
         ]
     ),[genderOptions, golfClubSizeOptions])
 
-    // function handleRegisterCustomer(customerData){
-    //     registerCustomer(customerData).then()
-    // }
 
     function handleSubmit(formData) {
         console.log(formData)

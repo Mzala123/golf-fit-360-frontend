@@ -5,11 +5,13 @@ import InputField from "../form/InputField.jsx";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {loginUser} from "../../api/endpoints.js";
 import {toast} from "sonner";
-import queryToStringObject from "../../lib/utils.js";
+import queryToStringObject, {setCookie} from "../../lib/utils.js";
+import useSession from "../../state/useSession.js";
 function Login() {
 
     const navigate = useNavigate();
     const query = useLocation()
+    const {setSession} = useSession(s=> s)
 
     const{message, type} = queryToStringObject(query.search)
 
@@ -67,9 +69,12 @@ function Login() {
 
     function handleLogin(formData){
         loginUser(formData).then(response=>{
-            localStorage.setItem('golf_token',response.data.token);
+            const res = response.data;
+            setCookie("access_token",res.token,1);
+            delete res.token;
+            setSession(res)
             toast.success("User authenticated successfully!");
-            console.log(response.data);
+            navigate("/system");
         }).catch(error=>{
             toast.error(`${error.response.data.message}`);
         }).finally(()=>{
@@ -92,8 +97,6 @@ function Login() {
             acc[field.name] = field.value;
             return acc;
         }, {});
-
-        console.log(formData)// This function will handle the login logic
         handleLogin(formData)
     };
 
@@ -106,8 +109,8 @@ function Login() {
                 {/*    hello*/}
                 {/*</div>*/}
                 <div className="flex gap-4 flex-col p-4 rounded-md w-[480px]">
-                    <h1 className="text-lg font-Martian text-center font-semibold">GolfFit-360</h1>
-                    {message && message}
+                    <h1 className="text-lg font-Martian text-center font-semibold">GolfFit 360</h1>
+                    {/*{message && message}*/}
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                         {fields.map((field) => (
                             <div key={field.name}>
