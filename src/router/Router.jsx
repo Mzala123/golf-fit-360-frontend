@@ -19,6 +19,7 @@ import MyProfile from "../pages/customer/MyProfile.jsx";
 import UpdateCustomer from "../pages/admin/UpdateCustomer.jsx";
 import PerformFittingTasks from "../pages/admin/PerformFittingTasks.jsx";
 import ViewFittingProgress from "../pages/customer/ViewFittingProgress.jsx";
+import EditCustomerProfile from "../pages/customer/EditCustomerProfile.jsx";
 
 
 const routes = createBrowserRouter(
@@ -110,6 +111,10 @@ const routes = createBrowserRouter(
                         {
                             path:'my_profile',
                             element: <MyProfile/>
+                        },
+                        {
+                            path:'edit_customer_profile/:id',
+                            element: <EditCustomerProfile/>
                         },
                     ]
                 }

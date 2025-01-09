@@ -1,11 +1,11 @@
-import {useEffect, useMemo, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
+import {useEffect, useMemo, useState} from "react";
 import {getOneCustomer, updateCustomer} from "../../api/endpoints.js";
 import {toast} from "sonner";
 import PageLoader from "../../components/ui/PageLoader.jsx";
 import FormBuilder from "../../components/form/FormBuilder.jsx";
 
-function UpdateCustomer() {
+function EditCustomerProfile() {
 
     const navigate = useNavigate();
     const params = useParams();
@@ -128,8 +128,6 @@ function UpdateCustomer() {
     useEffect(()=>{
         getOneCustomer(customerId).then(response=>{
             const customerData = response.data
-
-            console.log(customerData)
             const updatedFields = defaultCustomerFields.map(field =>({
                 ...field,
                 value: customerData[field.name] || ""
@@ -159,13 +157,12 @@ function UpdateCustomer() {
     return (
         <div className="py-4 w-full">
             <FormBuilder
-              formFields={formFields}
-              formTitle="Update Customer Details"
-              onSubmit={handleSubmit}
-              // setFormData={setFormData}
+                formFields={formFields}
+                formTitle="Update Customer Details"
+                onSubmit={handleSubmit}
+                // setFormData={setFormData}
             />
         </div>
     )
 }
-
-export default UpdateCustomer;
+export default EditCustomerProfile;

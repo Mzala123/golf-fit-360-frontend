@@ -101,3 +101,8 @@ export function viewFittingTaskProgressList(fittingId){
     })
 }
 
+export function getAvailableFittingRequestDateTime(){
+    return http.get(`/getAvailableFittingRequestDateTime`, {
+        headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
+    })
+}

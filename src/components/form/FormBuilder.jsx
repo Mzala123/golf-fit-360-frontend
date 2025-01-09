@@ -89,7 +89,7 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
 
     function handleChange(name, value) {
         // const {name, value} = e.target;
-        // console.log(name);
+        console.log(name, value);
         const updatedFields = fields.map((field)=>{
             return field.name === name ?
                 {...field,
@@ -99,10 +99,13 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
         })
         setFields(updatedFields)
 
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value // Update only the changed field in formData
-        }));
+        if(setFormData){
+            setFormData((prevData) => ({
+                ...prevData,
+                [name]: value // Update only the changed field in formData
+            }));
+
+        }
 
     }
 
