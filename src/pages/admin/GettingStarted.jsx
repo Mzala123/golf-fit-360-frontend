@@ -15,11 +15,10 @@ function GettingStarted() {
         handleGettingStarted();
     },[])
 
-    return(
-        <div className="flex justify-center items-center bg-pink-300">
+    return (
+        <div className="flex flex-1 justify-center items-center">
             <div className="font-Martian text-2xl leading-loose">
-                <h1 className="font-Martian text-2xl leading-loose">{gettingStarted.message}</h1>
-
+                {gettingStarted.message}
             </div>
         </div>
     )

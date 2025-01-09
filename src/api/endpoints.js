@@ -81,3 +81,23 @@ export function scheduleFittingRequest(body){
     })
 }
 
+
+
+export function readCustomerFittings(userId){
+    return http.get(`/readCustomerFittings/${userId}`, {
+        headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
+    })
+}
+
+export function viewFittingProgressList(userId){
+    return http.get(`/viewFittingProgressList/${userId}`, {
+        headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
+    })
+}
+
+export function viewFittingTaskProgressList(fittingId){
+    return http.get(`/viewFittingTaskProgressList/${fittingId}`, {
+        headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
+    })
+}
+

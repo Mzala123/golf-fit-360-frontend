@@ -18,6 +18,7 @@ import AccountHistory from "../pages/customer/AccountHistory.jsx";
 import MyProfile from "../pages/customer/MyProfile.jsx";
 import UpdateCustomer from "../pages/admin/UpdateCustomer.jsx";
 import PerformFittingTasks from "../pages/admin/PerformFittingTasks.jsx";
+import ViewFittingProgress from "../pages/customer/ViewFittingProgress.jsx";
 
 
 const routes = createBrowserRouter(
@@ -97,6 +98,10 @@ const routes = createBrowserRouter(
                         {
                             path:'fitting_progress',
                             element: <FittingProgress/>
+                        },
+                        {
+                            path:'view_fitting_progress/:id',
+                            element: <ViewFittingProgress/>
                         },
                         {
                             path:'account_history',

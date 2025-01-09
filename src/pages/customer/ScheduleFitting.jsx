@@ -3,10 +3,13 @@ import FormBuilder from "../../components/form/FormBuilder.jsx";
 import useSession from "../../state/useSession.js";
 import {scheduleFittingRequest} from "../../api/endpoints.js";
 import {toast} from "sonner";
+import {useNavigate} from "react-router-dom";
 
 function ScheduleFitting() {
 
     const {session} = useSession( s=>s);
+
+    const navigate = useNavigate();
 
     const[currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState({
@@ -113,20 +116,21 @@ function ScheduleFitting() {
                         name: "fittingScheduleDate",
                         value: formData.fittingScheduleDate,
                         placeholder: "Fitting Date",
-                        type: "date",
+                        type: "day_picker",
                         label: "Fitting Date",
                         required: true,
                         width: 12,
                     },
-                    {
-                        name: "fittingScheduleTime",
-                        value: formData.fittingScheduleTime,
-                        placeholder: "Fitting Time",
-                        type: "time",
-                        label: "Fitting Time",
-                        required: true,
-                        width: 12,
-                    },
+                    // {
+                    //     name: "fittingScheduleTime",
+                    //     value: formData.fittingScheduleTime,
+                    //     placeholder: "Fitting Time",
+                    //     type: "hidden",
+                    //     label: "Fitting Time",
+                    //     required: true,
+                    //     width: 12,
+                    //
+                    // },
                 ];
             case 3:
                 return [
@@ -148,14 +152,18 @@ function ScheduleFitting() {
   //  console.log(currentStep)
 
     function handleSubmit(data) {
+        const [fittingScheduleDate, fittingScheduleTime] = formData.fittingScheduleDate.split("|");
+        // console.log(formData.fittingScheduleDate)
         const formDataToSubmit = {
             ...formData,
-            userId: session.user.userid
+            userId: session.user.userid,
+            fittingScheduleDate,
+            fittingScheduleTime
         };
 
-        console.log(formDataToSubmit);
         scheduleFittingRequest(formDataToSubmit).then(response=>{
             toast.success(response.data.message);
+           // navigate('/')
         }).catch(error=>{
             toast.error(error.response.data.message)
         })
@@ -163,8 +171,7 @@ function ScheduleFitting() {
     }
 
     return (
-        <div className="py-4">
-
+        <div className="py-4 w-full">
             <FormBuilder
              formFields={fittingScheduleForm}
              formTitle={"Schedule Fitting Request"}

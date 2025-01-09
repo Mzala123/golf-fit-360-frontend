@@ -7,6 +7,7 @@ import {ChevronLeft} from "lucide-react";
 import SelectField from "./SelectField.jsx";
 import TextArea from "./TextArea.jsx";
 import TimeField from "./TimeField.jsx";
+import DatePicker from "./DatePicker.jsx";
 
 
 function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = false, currentStep = 1,
@@ -67,17 +68,18 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
 
 
     function validateField(field){
-        if(field.required && !field.value.trim()){
+        if(typeof field.value === "string" && field.required && !field.value.trim()){
             return `${field.name || field.label} is required`;
         }
 
-        if(field.type === "number" && field.value.trim()){
+        if( typeof field.value === "string" && field.type === "number"  && field.value.trim()){
             if(isNaN(field.value)){
                 return `Please enter a valid number`;
             }
         }
 
-        if(field.type === 'email' && field.value.trim()){
+
+        if(typeof field.value === "string" && field.type === 'email' && field.value.trim()){
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
             if(!emailRegex.test(field.value)){
                 return `Please enter a valid email address`;
@@ -85,8 +87,8 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
         }
     }
 
-    function handleChange(e) {
-        const {name, value} = e.target;
+    function handleChange(name, value) {
+        // const {name, value} = e.target;
         // console.log(name);
         const updatedFields = fields.map((field)=>{
             return field.name === name ?
@@ -102,8 +104,9 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
             [name]: value // Update only the changed field in formData
         }));
 
-
     }
+
+
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -225,7 +228,7 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
                                 return <div key={field.name} className={`${getSize(field.width)}`}>
                                     <InputField
                                         name={field.name}
-                                        onChange={handleChange}
+                                        onChange={({target})=>{handleChange(field.name, target.value)}}
                                         value={field.value}
                                         label={field.label}
                                         required={field.required}
@@ -238,7 +241,7 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
                                 return <div key={field.name} className={`${getSize(field.width)}`}>
                                     <InputField
                                         name={field.name}
-                                        onChange={handleChange}
+                                        onChange={({target})=>{handleChange(field.name, target.value)}}
                                         value={field.value}
                                         label={field.label}
                                         required={field.required}
@@ -251,7 +254,7 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
                                 return <div key={field.name} className={`${getSize(field.width)}`}>
                                     <InputField
                                         name={field.name}
-                                        onChange={handleChange}
+                                        onChange={({target})=>{handleChange(field.name, target.value)}}
                                         value={field.value}
                                         label={field.label}
                                         required={field.required}
@@ -264,7 +267,7 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
                                 return <div key={field.name} className={`${getSize(field.width)}`}>
                                     <InputField
                                         name={field.name}
-                                        onChange={handleChange}
+                                        onChange={({target})=>{handleChange(field.name, target.value)}}
                                         value={field.value}
                                         label={field.label}
                                         required={field.required}
@@ -277,7 +280,7 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
                                 return <div key={field.name} className={`${getSize(field.width)}`}>
                                     <InputField
                                         name={field.name}
-                                        onChange={handleChange}
+                                        onChange={({target})=>{handleChange(field.name, target.value)}}
                                         value={field.value}
                                         label={field.label}
                                         required={field.required}
@@ -286,11 +289,26 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
                                         error={field.error}
                                     />
                                 </div>
+
+                            case "day_picker":
+                                return <div key={field.name} className={`${getSize(field.width)}`}>
+                                    <DatePicker
+                                        name={field.name}
+                                        onChange={(value)=>{handleChange(field.name, value)}}
+                                        value={field.value}
+                                        label={field.label}
+                                        required={field.required}
+                                        type={field.type}
+                                        placeholder={field.placeholder}
+                                        error={field.error}
+                                    />
+                                </div>
+
                             case "time":
                                 return <div key={field.name} className={`${getSize(field.width)}`}>
                                     <TimeField
                                         name={field.name}
-                                        onChange={handleChange}
+                                        onChange={({target})=>{handleChange(field.name, target.value)}}
                                         value={field.value}
                                         label={field.label}
                                         required={field.required}
@@ -303,7 +321,7 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
                                 return <div key={field.name} className={`${getSize(field.width)}`}>
                                     <SelectField
                                         name={field.name}
-                                        onChange={handleChange}
+                                        onChange={({target})=>{handleChange(field.name, target.value)}}
                                         value={field.value}
                                         label={field.label}
                                         required={field.required}
@@ -317,7 +335,7 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
                                 return <div key={field.name} className={`${getSize(field.width)}`}>
                                     <TextArea
                                         placeholder={field.placeholder}
-                                        onChange={handleChange}
+                                        onChange={({target})=>{handleChange(field.name, target.value)}}
                                         value={field.value}
                                         label={field.label}
                                         name={field.name}
@@ -329,7 +347,8 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
                                         error={field.error}
                                     />
                                 </div>
-
+                            // case "hidden":
+                            //     return null
                             default: return "Invalid field type " + field.type
                         }
                     })
@@ -395,6 +414,7 @@ FormBuilder.propTypes = {
     onNext: PropTypes.func,
     onBack: PropTypes.func,
     setFormData: PropTypes.func,
+    steps: PropTypes.array
 
 }
 

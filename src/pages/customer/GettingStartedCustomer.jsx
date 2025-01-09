@@ -17,7 +17,7 @@ function GettingStartedCustomer() {
     },[])
 
     return(
-        <div className="flex justify-center items-center bg-pink-300">
+        <div className="flex flex-1 justify-center items-center">
           <div className="font-Martian text-2xl leading-loose">
               {gettingStarted.message}
           </div>

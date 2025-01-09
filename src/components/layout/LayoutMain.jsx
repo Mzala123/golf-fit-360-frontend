@@ -44,12 +44,12 @@ function LayoutMain() {
             <Banner/>
             <div className="w-full flex flex-1 top-24">
                 <SideBar isOpen={isOpen} handleCloseMenu={handleCloseMenu}/>
-                <div className="flex-1 w-full relative lg:w-[75%]">
+                <div className="flex flex-1 w-full relative lg:w-[75%]">
                     <button className="bg-white size-10 flex justify-center items-center transition-all absolute top-3 left-3 hover:bg-slate-200 rounded-full lg:hidden"
                         onClick={handleOpenMenu}>
                         <Menu size={24}/>
                     </button>
-                    <div className="mt-14 px-5 lg:mt-0 lg:px-0">
+                    <div className="mt-14 flex flex-1 w-full  px-5 lg:mt-0 lg:px-0">
                         <Outlet/>
                     </div>
                 </div>

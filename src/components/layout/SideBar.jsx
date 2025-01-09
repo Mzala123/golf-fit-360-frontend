@@ -4,12 +4,16 @@ import {useMemo} from "react";
 import useSession from "../../state/useSession.js";
 import {adminMenu, } from "./AdminMenu.jsx";
 import {customerMenu} from "./CustomerMenu.jsx";
-import {Link} from "react-router-dom";
-import {getAccountName} from "../../lib/utils.js";
+import {Link, useLocation} from "react-router-dom";
+import {getAccountName, setCookie} from "../../lib/utils.js";
+import Button from "../ui/Button.jsx";
+import {toast} from "sonner";
 
 function SideBar({handleCloseMenu, isOpen}) {
 
-    const {session} = useSession( s=>s);
+    const {session, setSession} = useSession( s=>s);
+
+    const location = useLocation();
 
     const menus = useMemo(()=>{
           if(session.user.usertype === "ADMIN"){
@@ -20,6 +24,12 @@ function SideBar({handleCloseMenu, isOpen}) {
           return [];
 
     },[session.user])
+
+    function handleLogout(){
+       setCookie("access_token", undefined);
+       setSession(undefined);
+       toast.success("Logout successfully.");
+    }
 
     return (
         <div className={`bg-white min-w-72 w-96 fixed top-0 bottom-0 z-20  flex transition-all shadow-md lg:border-r lg:border-slate-300 ${isOpen ? "left-0" : "-left-96"} lg:left-0 lg:shadow-none lg:w-[25%] lg:relative`}>
@@ -35,14 +45,20 @@ function SideBar({handleCloseMenu, isOpen}) {
                     <div className="px-2">
                         {
                             menus.map((menu)=> {
-                               return <Link  key={menu.path} to={menu.path} className={`flex gap-4 items-center p-2 px-4 hover:text-white hover:rounded-lg hover:border-blue-700 hover:bg-green-600`}>
+                               const isActive = location.pathname === menu.path;
+                               return <Link  key={menu.path} to={menu.path} className={`flex gap-4 items-center p-2 px-4 hover:text-white hover:rounded-md hover:border-blue-700 hover:bg-green-600
+                                 ${isActive ? "bg-green-600 text-white rounded-md" : ""}
+                               `}>
                                       <span>{menu.icon}</span>{menu.title} </Link>
                             })
                         }
                     </div>
                 </div>
                 <div className={"px-3 w-full py-3 flex gap-3 items-center"}>
-                    <User size={18} /> {getAccountName(session)}
+                    <User size={18} /> <span className="flex-1">{getAccountName(session)} | {session.user.usertype}</span>
+                    <Button variant="danger" onClick={handleLogout}>
+                        Logout
+                    </Button>
                 </div>
             </div>
 
