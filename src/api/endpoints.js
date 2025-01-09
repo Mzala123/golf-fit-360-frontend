@@ -57,8 +57,27 @@ export function getFittingRequestTasksList(fittingId){
     })
 }
 
+export function getfittingRequestSchedules(){
+    return http.get(`/fittingRequestSchedules`, {
+        headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
+    })
+}
+
+export function getfittingRequestHistory(){
+    return http.get(`/fittingRequestHistory`, {
+        headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
+    })
+}
+
 export function performFittingTask(taskId, body){
     return http.put(`/performFittingTask/${taskId}`,body, {
         headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
     })
 }
+
+export function scheduleFittingRequest(body){
+    return http.post(`/fittingRequest`,body, {
+        headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
+    })
+}
+

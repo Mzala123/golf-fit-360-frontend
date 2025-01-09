@@ -4,7 +4,7 @@ function Button({children, onClick, variant="primary", isDisabled, isLoading }) 
 
     const variantClass = {
         primary:"bg-green-600 hover:bg-green-700 text-white",
-        secondary:"bg-gray-600 hover:bg-gray-700 text-white",
+        secondary:"bg-gray-300 hover:bg-gray-400 text-white",
         danger:"bg-red-600 hover:bg-red-700 text-white",
     }
     return (

@@ -1,14 +1,16 @@
 import PropTypes from "prop-types";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import InputField from "./InputField.jsx";
 import Button from "../ui/Button.jsx";
 import {useNavigate} from "react-router-dom";
 import {ChevronLeft} from "lucide-react";
 import SelectField from "./SelectField.jsx";
 import TextArea from "./TextArea.jsx";
+import TimeField from "./TimeField.jsx";
 
 
-function FormBuilder({onSubmit, formFields=[] , formTitle=""}) {
+function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = false, currentStep = 1,
+                         totalSteps = 1, onNext, onBack, steps = [], setFormData}) {
 
     const [fields, setFields] = useState(formFields.map((field)=>{
         return {
@@ -16,9 +18,52 @@ function FormBuilder({onSubmit, formFields=[] , formTitle=""}) {
             value: field.value || "",
         }
     }));
+
+    // const [fields, setFields] = useState([])
+
     // const [formDataObj, setFormDataObj] = useState({});
     const[isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
+    const [canProceed, setCanProceed] = useState(false);
+
+
+    useEffect(() => {
+        setFields(
+            formFields.map((field) => ({
+                ...field,
+                value: field.value || "",
+            }))
+        );
+    }, [formFields]);
+
+    // const validateCurrentField = () => {
+    //     const currentField = fields[currentStep - 1]; // Get the currently displayed field based on the step
+    //     if (currentField.required && currentField.value.trim() === "") {
+    //         setCanProceed(false);
+    //     } else {
+    //         setCanProceed(true);
+    //     }
+    // };
+
+
+    const validateCurrentField = () => {
+        const currentField = fields[currentStep - 1]; // Get the currently displayed field based on the step
+        if (currentField && currentField.required) {
+            // Only check if the field is required and its value is empty
+            if (currentField.value.trim() === "") {
+                setCanProceed(false);
+            } else {
+                setCanProceed(true);
+            }
+        } else {
+            setCanProceed(true); // If not required, always allow proceed
+        }
+    };
+
+
+    useEffect(() => {
+        validateCurrentField(); // Call validate when currentStep changes
+    }, [currentStep, fields]);
 
 
     function validateField(field){
@@ -42,7 +87,7 @@ function FormBuilder({onSubmit, formFields=[] , formTitle=""}) {
 
     function handleChange(e) {
         const {name, value} = e.target;
-        console.log(name);
+        // console.log(name);
         const updatedFields = fields.map((field)=>{
             return field.name === name ?
                 {...field,
@@ -51,10 +96,22 @@ function FormBuilder({onSubmit, formFields=[] , formTitle=""}) {
                 } : field
         })
         setFields(updatedFields)
+
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value // Update only the changed field in formData
+        }));
+
+
     }
 
     function handleSubmit(e) {
         e.preventDefault();
+
+        if (wizardMode && currentStep < totalSteps) {
+            return;
+        }
+
         const updatedFields = fields.map((field) => ({
             ...field,
             error: validateField(field),
@@ -75,6 +132,11 @@ function FormBuilder({onSubmit, formFields=[] , formTitle=""}) {
             return acc;
         }, {})
         console.log("Form submitted with data:", formData);
+
+        if (setFormData) {
+            setFormData(formData);  // Only called if setFormData is provided
+        }
+
         onSubmit(formData)
 
     }
@@ -130,6 +192,31 @@ function FormBuilder({onSubmit, formFields=[] , formTitle=""}) {
                 <ChevronLeft className={"size-8 hover:rounded-full hover:cursor-pointer hover:bg-slate-200"} onClick={()=>navigate(-1)} />
                 <p className="text-3xl font-Poppins_Bold">{formTitle}</p>
             </div>
+            {wizardMode && steps.length > 0 && (
+                <div className="flex justify-between items-center mb-6">
+                    {steps.map((step, index) => (
+                        <div
+                            key={step.key}
+                            className={`flex-1 text-center ${
+                                index + 1 === currentStep
+                                    ? "text-green-600 font-bold"
+                                    : "text-gray-400"
+                            }`}
+                        >
+                            <span
+                                className={`rounded-full w-8 h-8 flex items-center justify-center mx-auto ${
+                                    index + 1 === currentStep
+                                        ? "bg-green-600 text-white"
+                                        : "bg-gray-200"
+                                }`}
+                            >
+                                {index + 1}
+                            </span>
+                            <p className="text-sm mt-2">{step.label}</p>
+                        </div>
+                    ))}
+                </div>
+            )}
             <form className="grid grid-cols-12 gap-6" onSubmit={handleSubmit}>
                 {
                     fields.map((field) => {
@@ -199,6 +286,19 @@ function FormBuilder({onSubmit, formFields=[] , formTitle=""}) {
                                         error={field.error}
                                     />
                                 </div>
+                            case "time":
+                                return <div key={field.name} className={`${getSize(field.width)}`}>
+                                    <TimeField
+                                        name={field.name}
+                                        onChange={handleChange}
+                                        value={field.value}
+                                        label={field.label}
+                                        required={field.required}
+                                        type={field.type}
+                                        placeholder={field.placeholder}
+                                        error={field.error}
+                                    />
+                                </div>
                             case "select":
                                 return <div key={field.name} className={`${getSize(field.width)}`}>
                                     <SelectField
@@ -235,8 +335,37 @@ function FormBuilder({onSubmit, formFields=[] , formTitle=""}) {
                     })
                 }
                 <div className="flex col-span-12 justify-end mt-2 gap-2">
-                    <Button className={"col-span-6"}  variant="danger" onClick={handleClear}>Clear</Button>
-                    <Button className={"col-span-6"}  variant="primary" type="submit">Submit</Button>
+                    {
+                        wizardMode ? (
+                                <>
+                                    {currentStep > 1 && (
+                                        <Button type="button" className="btn" onClick={onBack}>
+                                            Back
+                                        </Button>
+                                    )}
+                                    {currentStep < totalSteps ? (
+                                        <Button type="button" className="btn"
+                                                onClick={onNext}
+                                                isDisabled={!canProceed}
+                                                variant={canProceed ? "primary" : "secondary"}
+                                        >
+                                            Next
+                                        </Button>
+                                    ) : (
+                                        <div className="flex gap-2">
+                                            <Button className={"col-span-6"}  variant="danger" onClick={handleClear}>Clear</Button>
+                                            <Button className={"col-span-6"}  variant="primary" type="submit">Submit</Button>
+                                        </div>
+                                    )}
+                                </>
+                        ) : (
+                            <div className="flex col-span-12 justify-end mt-2 gap-2">
+                                <Button className={"col-span-6"}  variant="danger" onClick={handleClear}>Clear</Button>
+                                <Button className={"col-span-6"}  variant="primary" type="submit">Submit</Button>
+                            </div>
+                        )
+                    }
+
                 </div>
 
             </form>
@@ -260,6 +389,13 @@ FormBuilder.propTypes = {
     formData: PropTypes.object,
     formActionTitle: PropTypes.string,
     formTitle: PropTypes.string,
+    wizardMode: PropTypes.bool,
+    currentStep: PropTypes.number,
+    totalSteps: PropTypes.number,
+    onNext: PropTypes.func,
+    onBack: PropTypes.func,
+    setFormData: PropTypes.func,
+
 }
 
 export default FormBuilder;
