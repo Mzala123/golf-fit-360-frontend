@@ -119,3 +119,12 @@ export function getAvailableFittingRequestDateTime(){
         headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
     })
 }
+
+export function cancelFittingRequestsTasks(fittingId){
+    return http.put(`/cancelFittingRequestsTasks/${fittingId}`, {
+        headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
+    })
+}
+
+
+

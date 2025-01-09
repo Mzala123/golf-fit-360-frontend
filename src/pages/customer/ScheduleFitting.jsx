@@ -163,7 +163,7 @@ function ScheduleFitting() {
 
         scheduleFittingRequest(formDataToSubmit).then(response=>{
             toast.success(response.data.message);
-           // navigate('/')
+            navigate('/system/customer/fitting_progress')
         }).catch(error=>{
             toast.error(error.response.data.message)
         })

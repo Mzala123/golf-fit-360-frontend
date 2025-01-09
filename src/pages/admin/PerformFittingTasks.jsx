@@ -1,8 +1,14 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getFittingRequestTasksList, getOneFittingRequests, performFittingTask} from "../../api/endpoints.js";
+import {
+    cancelFittingRequestsTasks,
+    getFittingRequestTasksList,
+    getOneFittingRequests,
+    performFittingTask
+} from "../../api/endpoints.js";
 import {toast} from "sonner";
 import {ChevronLeft, Pencil} from "lucide-react";
+import Button from "../../components/ui/Button.jsx";
 
 
 function PerformFittingTasks() {
@@ -41,6 +47,19 @@ function PerformFittingTasks() {
         }).catch(error => {
             toast.error(error.response.data.message || "Failed to complete task");
         });
+    }
+
+    console.log(fittingRequests);
+
+    function handleCancelFittingRequest(fittingId){
+        console.log(fittingId);
+        cancelFittingRequestsTasks(fittingId).then((response) => {
+            toast.success(response.data.message);
+            navigate(-1);
+        }).catch(error => {
+            toast.error(error.response.data.message || "Failed to cancel fitting request complete");
+        })
+
     }
 
     useEffect(()=>{
@@ -86,6 +105,12 @@ function PerformFittingTasks() {
                             </div>
                         })
                     }
+                </div>
+
+                <div className="flex justify-end">
+                    <Button variant={"danger"} onClick={()=>{
+                        handleCancelFittingRequest(fittingRequests[0].fittingid)
+                    }}>Cancel</Button>
                 </div>
 
             </div>
