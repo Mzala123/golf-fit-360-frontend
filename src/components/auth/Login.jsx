@@ -110,7 +110,7 @@ function Login() {
                 {/*</div>*/}
                 <div className="flex gap-4 flex-col p-4 rounded-md w-[480px]">
                     <div className="flex justify-center items-center mb-4">
-                        <img className="h-24" src="images/golflogo.png" alt="" />
+                        <img className="h-24" src="/images/golflogo.png" alt="" />
                     </div>
                     {/*{message && message}*/}
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">

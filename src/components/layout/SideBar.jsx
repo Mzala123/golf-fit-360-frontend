@@ -36,7 +36,7 @@ function SideBar({handleCloseMenu, isOpen}) {
             <div className={"flex flex-1 flex-col justify-between w-full"}>
                 <div className={"flex-1 w-full  flex flex-col gap-4"}>
                     <div className="px-3 pt-3 border-b pb-4 flex justify-center items-center relative">
-                        <img className="h-20" src="images/golflogo.png" alt=""/>
+                        <img className="h-20" src="/images/golflogo.png" alt=""/>
                         <button className="size-10 flex justify-center items-center transition-all absolute top-3 right-3 hover:bg-slate-200 rounded-full lg:hidden" onClick={handleCloseMenu}>
                             <X size={24}/>
                         </button>
