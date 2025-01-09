@@ -22,8 +22,21 @@ function CustomerList() {
         })
     }
 
-    const handleEdit = (id) => {
-        navigate(`/edit-customer/${id}`);
+    const EditRow = ({ dispatch, rowKeyValue }) => {
+        const navigate = useNavigate();
+
+        const handleEdit = () => {
+            navigate(`/system/admin/edit_customer/${rowKeyValue}`);
+        };
+
+        return (
+            <button
+                className="text-blue-600 hover:text-blue-800"
+                onClick={handleEdit}
+            >
+                <Pencil className="size-5" />
+            </button>
+        );
     };
 
     useEffect(()=>{
@@ -36,7 +49,7 @@ function CustomerList() {
 
             <div className="bg-white rounded-md w-full flex flex-col gap-6">
                 <div className="flex  justify-between items-center">
-                    <h1 className="text-2xl uppercase font-Poppins_Bold">Customer List</h1>
+                    <h1 className="text-2xl uppercase font-Poppins_Bold">Customer Profile List</h1>
                     <div className="flex justify-end ">
                         <InputField onChange={(e) => {
                             setSearchText(e.currentTarget.value)
@@ -58,16 +71,7 @@ function CustomerList() {
                             {key: 'phonenumber', title: 'Phonenumber', dataType: DataType.String },
                             { key: 'golfclubsize', title: 'Golf Club Size', dataType: DataType.String },
                             { key: 'address', title: 'Address', dataType: DataType.String },
-                            { key: 'manage', title: 'Manage', dataType: DataType.String,
-                                render: ({ rowData }) => (
-                                    <button
-                                        className="text-blue-600 hover:text-blue-800"
-                                        onClick={() => {handleEdit(rowData.customerid)}}
-                                    >
-                                        <Pencil className="w-5 h-5" />
-                                    </button>
-                                ),
-                            }
+                            { key: ':edit', title:'Manage', width: 70, style: { textAlign: 'center' } },
                         ]}
                         data={customers}
                         rowKeyField={'customerid'}
@@ -89,6 +93,14 @@ function CustomerList() {
                                     className: 'px-4 py-2 text-gray-600 border-b border-gray-300',
                                 }),
                             },
+                            cellText: {
+                                content: (props) => {
+                                    switch (props.column.key) {
+                                        case ':edit':
+                                            return <EditRow {...props} />;
+                                    }
+                                },
+                            }
                         }}
                     />
                 </div>

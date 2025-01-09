@@ -1,12 +1,18 @@
-import {useMemo} from "react";
-import FormBuilder from "../form/FormBuilder.jsx";
-import {registerCustomer} from "../../api/endpoints.js";
+import {useEffect, useMemo, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {getOneCustomer, updateCustomer} from "../../api/endpoints.js";
 import {toast} from "sonner";
-import {useNavigate} from "react-router-dom";
+import PageLoader from "../../components/ui/PageLoader.jsx";
+import FormBuilder from "../../components/form/FormBuilder.jsx";
 
-function Register() {
+function UpdateCustomer() {
 
     const navigate = useNavigate();
+    const params = useParams();
+    const customerId = params.id
+    const[formFields, setFormFields] = useState([]);
+    const[isLoading, setIsLoading] = useState(true);
+
 
     const genderOptions =  useMemo(()=>(
         [
@@ -47,10 +53,10 @@ function Register() {
         ]
     ))
 
-    const customerForm  = useMemo(()=>(
+    const defaultCustomerFields  = useMemo(()=>(
         [
             {
-                name:"firstName",
+                name:"firstname",
                 value:"",
                 placeholder:"Enter customer first name",
                 type:'text',
@@ -59,7 +65,7 @@ function Register() {
                 width: 6
             },
             {
-                name:"lastName",
+                name:"lastname",
                 value:"",
                 placeholder:"Enter customer last name",
                 type:'text',
@@ -77,22 +83,13 @@ function Register() {
                 width: 6
             },
             {
-                name:"password",
-                value:"",
-                placeholder:"Enter customer password",
-                type:'password',
-                label:"Password",
-                required:true,
-                width: 6
-            },
-            {
-                name:"phoneNumber",
+                name:"phonenumber",
                 value:"",
                 placeholder:"Enter customer phone number",
                 type:'text',
                 label:"Phone number",
                 required:false,
-                width: 12
+                width: 6
             },
             {
                 name:"gender",
@@ -105,7 +102,7 @@ function Register() {
                 options:genderOptions
             },
             {
-                name:"golfClubSize",
+                name:"golfclubsize",
                 value:"",
                 placeholder:"Enter golf club size",
                 type:'select',
@@ -128,29 +125,44 @@ function Register() {
         ]
     ),[genderOptions, golfClubSizeOptions])
 
+    useEffect(()=>{
+        getOneCustomer(customerId).then(response=>{
+            const customerData = response.data
+            const updatedFields = defaultCustomerFields.map(field =>({
+                ...field,
+                value: customerData[field.name] || ""
+            }))
+            setFormFields(updatedFields)
+        }).catch(err=>{
+            toast.error(err.message)
+        }).finally(() => setIsLoading(false))
 
-    function handleSubmit(formData) {
-        console.log(formData)
-        registerCustomer(formData).then(response=>{
+    },[customerId, defaultCustomerFields])
+
+    function handleSubmit(formData){
+        updateCustomer(customerId, formData).then((response)=>{
+            navigate(-1)
             toast.success(response.data.message);
-            navigate("/?message=Your customer account was registered successfully. Please login");
-        }).catch(error=>{
-            toast.error(error.response.data.message);
-        }).finally(()=>{
-
+        }).catch(err=>{
+            toast.error(err.message)
         })
     }
 
+    if(isLoading){
+        return <div className="flex gap-2">
+            <span>Fetching data...</span> <PageLoader/>
+        </div>
+    }
+
     return (
-        <div className="container mx-auto px-4 mt-10">
+        <div className="py-4">
             <FormBuilder
-                formFields={customerForm}
-                formTitle={"Create Customer Account"}
-                onSubmit={handleSubmit}
+              formFields={formFields}
+              formTitle="Update Customer Details"
+              onSubmit={handleSubmit}
             />
         </div>
     )
-
 }
 
-export default Register;
+export default UpdateCustomer;

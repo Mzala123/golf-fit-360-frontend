@@ -1,4 +1,4 @@
-import {CalendarCog, CalendarSync, Flag, History, Home, ListTree} from "lucide-react";
+import {CalendarCog, CalendarSync, Flag, History, Home, ListTree, User} from "lucide-react";
 
 export const customerMenu = [
     {
@@ -30,5 +30,10 @@ export const customerMenu = [
         title: 'Account History',
         icon: <History size={18}/>,
         path: '/system/customer/account_history',
+    },
+    {
+        title: 'My Profile',
+        icon: <User size={18}/>,
+        path: '/system/customer/my_profile',
     }
 ]

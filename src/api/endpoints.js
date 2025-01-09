@@ -44,3 +44,21 @@ export function getListFittingRequests(){
         headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
     })
 }
+
+export function getOneFittingRequests(fittingId){
+    return http.get(`/fittingRequest/${fittingId}`, {
+        headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
+    })
+}
+
+export function getFittingRequestTasksList(fittingId){
+    return http.get(`/fittingRequestTasks/${fittingId}`, {
+        headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
+    })
+}
+
+export function performFittingTask(taskId, body){
+    return http.put(`/performFittingTask/${taskId}`,body, {
+        headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
+    })
+}

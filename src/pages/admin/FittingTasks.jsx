@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {getListFittingRequests} from "../../api/endpoints.js";
 import InputField from "../../components/form/InputField.jsx";
 import {DataType, Table} from "ka-table";
+import {Cog, Pencil} from "lucide-react";
 
 function FittingTasks() {
     const params = useParams();
@@ -17,6 +18,24 @@ function FittingTasks() {
             setFittingRequests(response.data)
         })
     }
+
+    const ManageRow = ({ dispatch, rowKeyValue }) => {
+        const navigate = useNavigate();
+
+        const handleEdit = () => {
+            navigate(`/system/admin/perform_fitting_task/${rowKeyValue}`);
+        };
+
+        return (
+            <button
+                className="text-green-500 hover:text-green-600"
+                onClick={handleEdit}
+            >
+                <Cog className="size-5" />
+            </button>
+        );
+    };
+
 
     useEffect(() => {
         handleGetFittingRequests();
@@ -51,6 +70,7 @@ function FittingTasks() {
                             {key: 'email', title: 'Email', dataType: DataType.String},
                             { key: 'golfclubsize', title: 'Golf Club Size', dataType: DataType.String },
                             { key: 'address', title: 'Address', dataType: DataType.String },
+                            { key: ':manage', title:'Manage Task', width: 70, style: { textAlign: 'center' } },
                         ]}
                         data={fittingRequests}
                         rowKeyField={'fittingid'}
@@ -72,6 +92,14 @@ function FittingTasks() {
                                     className: 'px-4 py-2 text-gray-600 border-b border-gray-300',
                                 }),
                             },
+                            cellText: {
+                                content: (props) => {
+                                    switch (props.column.key) {
+                                        case ':manage':
+                                            return <ManageRow {...props} />;
+                                    }
+                                },
+                            }
                         }}
                     />
                 </div>

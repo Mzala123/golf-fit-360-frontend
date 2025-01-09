@@ -1,7 +1,7 @@
 import {Navigate, Outlet, useLocation} from "react-router-dom";
 import {useMemo, useState} from "react";
 import useSession from "../../state/useSession.js";
-import {getAccountName, getCookie} from "../../lib/utils.js";
+import {getCookie} from "../../lib/utils.js";
 import Banner from "./Banner.jsx";
 import SideBar from "./SideBar.jsx";
 import {Menu} from "lucide-react";

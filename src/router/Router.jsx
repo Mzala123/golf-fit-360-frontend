@@ -15,6 +15,9 @@ import ScheduleSwingAnalysis from "../pages/customer/ScheduleSwingAnalysis.jsx";
 import ScheduleFitting from "../pages/customer/ScheduleFitting.jsx";
 import FittingProgress from "../pages/customer/FittingProgress.jsx";
 import AccountHistory from "../pages/customer/AccountHistory.jsx";
+import MyProfile from "../pages/customer/MyProfile.jsx";
+import UpdateCustomer from "../pages/admin/UpdateCustomer.jsx";
+import PerformFittingTasks from "../pages/admin/PerformFittingTasks.jsx";
 
 
 const routes = createBrowserRouter(
@@ -61,6 +64,14 @@ const routes = createBrowserRouter(
                         {
                             path:'customer_profiles',
                             element: <CustomerList/>
+                        },
+                        {
+                            path:'edit_customer/:id',
+                            element: <UpdateCustomer/>
+                        },
+                        {
+                            path:'perform_fitting_task/:id',
+                            element: <PerformFittingTasks/>
                         }
                     ]
                 },
@@ -90,6 +101,10 @@ const routes = createBrowserRouter(
                         {
                             path:'account_history',
                             element: <AccountHistory/>
+                        },
+                        {
+                            path:'my_profile',
+                            element: <MyProfile/>
                         },
                     ]
                 }
