@@ -20,6 +20,7 @@ import UpdateCustomer from "../pages/admin/UpdateCustomer.jsx";
 import PerformFittingTasks from "../pages/admin/PerformFittingTasks.jsx";
 import ViewFittingProgress from "../pages/customer/ViewFittingProgress.jsx";
 import EditCustomerProfile from "../pages/customer/EditCustomerProfile.jsx";
+import EditGettingStartedMessage from "../pages/admin/EditGettingStartedMessage.jsx";
 
 
 const routes = createBrowserRouter(
@@ -74,7 +75,11 @@ const routes = createBrowserRouter(
                         {
                             path:'perform_fitting_task/:id',
                             element: <PerformFittingTasks/>
-                        }
+                        },
+                        {
+                            path:'edit_getting_started_message/:id',
+                            element: <EditGettingStartedMessage/>
+                        },
                     ]
                 },
                 {

@@ -39,6 +39,19 @@ export function getStartedMessage(){
     })
 }
 
+export function readOneGolfClubMessage(messageId){
+    return http.get(`/golfClubMessage/${messageId}`, {
+        headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
+    })
+}
+
+export function updateGolfClubMessage(messageId, body){
+    return http.put(`/golfClubMessage/${messageId}`, body,{
+        headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
+    })
+}
+
+
 export function getListFittingRequests(){
     return http.get(`/fittingRequest`, {
         headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
