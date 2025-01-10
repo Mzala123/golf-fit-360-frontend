@@ -84,7 +84,7 @@ function ScheduleFitting() {
             {
                 value: "Putter",
                 label: "Putter",
-                description: "",
+                description: "Attack every lie imaginable after dialing in these clubs for optimal launch angle and swing speed.",
                 duration:"1 HOUR",
                 price:"$75",
                 discountPrice:"$50"
@@ -172,6 +172,23 @@ function ScheduleFitting() {
 
     return (
         <div className="py-4 w-full">
+
+            <div className="px-4 pb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3 ">
+                {
+                    fittingServicesOption.map((option, index) => (
+                        <div key={index}>
+                            <h1 className="text-lg font-Poppins_Bold">{option.label}</h1>
+                            <div className="flex flex-col gap-4">
+                                <p className="text-sm">{option.description}</p>
+                                <div className="flex gap-4 font-Poppins_Bold">
+                                    <span className="font-Poppins_Bold">{option.discountPrice}</span> <span className="font-Poppins_Bold line-through">{option.price}</span>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
+
             <FormBuilder
              formFields={fittingScheduleForm}
              formTitle={"Schedule Fitting Request"}
