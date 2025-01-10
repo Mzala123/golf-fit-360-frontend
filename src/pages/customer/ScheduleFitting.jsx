@@ -171,7 +171,7 @@ function ScheduleFitting() {
     }
 
     return (
-        <div className="py-4 w-full">
+        <div className="py-6 w-full">
 
             <div className="px-4 pb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3 ">
                 {
