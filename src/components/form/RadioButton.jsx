@@ -3,14 +3,11 @@ import PropTypes from "prop-types";
 function RadioButton({value, onChange, name, required=false, type="radio", label, error, options =[]}) {
     return (
         <div>
-            <div className={"font-Poppins_Bold text-2xl flex justify-center font-semibold mb-4"}>
-                SELECT FITTING SERVICE
-            </div>
             <div className="grid gap-4 md:grid-cols-2">
                 {
                     options.map((option, index) => (
                             <label htmlFor={name + index} key={option.value}
-                                   className="font-Poppins_Bold flex flex-col justify-between gap-2 border border-gray-200 rounded-lg p-3 cursor-pointer">
+                                   className={`font-Poppins_Bold flex flex-col justify-between gap-2 border border-gray-200 rounded-lg p-3 cursor-pointer`}>
                                 <div className="flex flex-col gap-2 justify-between">
                                     <div className="flex gap-2 justify-between">
                                         <p className={"font-Poppins_Bold"}>{option.label}</p>
