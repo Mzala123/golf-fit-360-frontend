@@ -56,7 +56,7 @@ function FittingProgress() {
                                     name={'searchText'}
                                     label={''} type={'search'}
                                     className={'search_field'}
-                                    placeholder="Find"
+                                    placeholder="search"
                         />
                     </div>
                 </div>

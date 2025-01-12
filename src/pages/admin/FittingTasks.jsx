@@ -55,7 +55,7 @@ function FittingTasks() {
                                     name={'searchText'}
                                     label={''} type={'search'}
                                     className={'search_field'}
-                                    placeholder="Find"
+                                    placeholder="search"
                         />
                     </div>
                 </div>

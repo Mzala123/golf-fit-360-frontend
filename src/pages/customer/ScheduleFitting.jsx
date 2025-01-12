@@ -162,22 +162,6 @@ function ScheduleFitting() {
     return (
         <div className="py-6 w-full">
 
-            {/*<div className="px-6 pb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3 ">*/}
-            {/*    {*/}
-            {/*        fittingServicesOption.map((option, index) => (*/}
-            {/*            <div key={index} className="border rounded-md border-slate-200 p-2">*/}
-            {/*                <h1 className="text-lg font-Poppins_Bold">{option.label}</h1>*/}
-            {/*                <div className="flex flex-col gap-4">*/}
-            {/*                    <p className="text-sm">{option.description}</p>*/}
-            {/*                    <div className="flex gap-4 font-Poppins_Bold">*/}
-            {/*                        <span className="font-Poppins_Bold">{option.discountPrice}</span> <span className="font-Poppins_Bold line-through">{option.price}</span>*/}
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        ))*/}
-            {/*    }*/}
-            {/*</div>*/}
-
             <FormBuilder
              formFields={fittingScheduleForm}
              formTitle={"Schedule Fitting Request"}
