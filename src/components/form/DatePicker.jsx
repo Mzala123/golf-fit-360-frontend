@@ -91,7 +91,7 @@ function DatePicker({placeholder, value, onChange, name, onKeyUp, type="date-pic
                             handleChange("time", time);
                             onChange(`${dateTime.date}|${time}`);
                         }} className={`px-4 py-2 text-center cursor-pointer  transition-all border-2 rounded-md border-black
-                            ${dateTime.time === time ? 'bg-green-600' : 'bg-slate-200 hover:bg-slate-300'}
+                            ${dateTime.time === time ? 'bg-green-600 text-white' : 'bg-slate-200 hover:bg-slate-300'}
                         `}>
                             {time}
                         </div>
