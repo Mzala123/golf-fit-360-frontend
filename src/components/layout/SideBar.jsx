@@ -46,8 +46,8 @@ function SideBar({handleCloseMenu, isOpen}) {
                         {
                             menus.map((menu)=> {
                                const isActive = location.pathname === menu.path;
-                               return <Link  key={menu.path} to={menu.path} className={`flex gap-4 items-center p-2 px-4 hover:text-white hover:rounded-md hover:border-blue-700 hover:bg-green-600
-                                 ${isActive ? "bg-green-600 text-white rounded-md" : ""}
+                               return <Link  key={menu.path} to={menu.path} className={`flex gap-4 items-center p-2 border-l-4 px-4 hover:text-black hover:border-l-4  hover:border-green-600 hover:bg-slate-200
+                                 ${isActive ? "bg-slate-100 border-green-600 text-black " : "border-transparent"}
                                `}>
                                       <span>{menu.icon}</span>{menu.title} </Link>
                             })

@@ -70,11 +70,17 @@ function Login() {
     function handleLogin(formData){
         loginUser(formData).then(response=>{
             const res = response.data;
+            console.log(res);
             setCookie("access_token",res.token,1);
             delete res.token;
             setSession(res)
             toast.success("User authenticated successfully!");
-            navigate("/system");
+            if(res.user.usertype === 'ADMIN'){
+                navigate("/system/admin");
+            }else if(res.user.usertype === 'CUSTOMER'){
+                navigate("/system/customer");
+            }
+
         }).catch(error=>{
             toast.error(`${error.response.data.message}`);
         }).finally(()=>{

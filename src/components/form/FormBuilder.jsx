@@ -8,6 +8,7 @@ import SelectField from "./SelectField.jsx";
 import TextArea from "./TextArea.jsx";
 import TimeField from "./TimeField.jsx";
 import DatePicker from "./DatePicker.jsx";
+import RadioButton from "./RadioButton.jsx";
 
 
 function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = false, currentStep = 1,
@@ -20,9 +21,7 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
         }
     }));
 
-    // const [fields, setFields] = useState([])
 
-    // const [formDataObj, setFormDataObj] = useState({});
     const[isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
     const [canProceed, setCanProceed] = useState(false);
@@ -37,18 +36,9 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
         );
     }, [formFields]);
 
-    // const validateCurrentField = () => {
-    //     const currentField = fields[currentStep - 1]; // Get the currently displayed field based on the step
-    //     if (currentField.required && currentField.value.trim() === "") {
-    //         setCanProceed(false);
-    //     } else {
-    //         setCanProceed(true);
-    //     }
-    // };
-
 
     const validateCurrentField = () => {
-        const currentField = fields[currentStep - 1]; // Get the currently displayed field based on the step
+        const currentField = fields[0];
         if (currentField && currentField.required) {
             // Only check if the field is required and its value is empty
             if (currentField.value.trim() === "") {
@@ -57,7 +47,7 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
                 setCanProceed(true);
             }
         } else {
-            setCanProceed(true); // If not required, always allow proceed
+            setCanProceed(true);
         }
     };
 
@@ -89,7 +79,7 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
 
     function handleChange(name, value) {
         // const {name, value} = e.target;
-        console.log(name, value);
+        console.log(name, "value : "+value);
         const updatedFields = fields.map((field)=>{
             return field.name === name ?
                 {...field,
@@ -323,6 +313,20 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
                             case "select":
                                 return <div key={field.name} className={`${getSize(field.width)}`}>
                                     <SelectField
+                                        name={field.name}
+                                        onChange={({target})=>{handleChange(field.name, target.value)}}
+                                        value={field.value}
+                                        label={field.label}
+                                        required={field.required}
+                                        isSubmitting={isSubmitting}
+                                        type={field.type}
+                                        options={field.options}
+                                        error={field.error}
+                                    />
+                                </div>
+                            case "radio":
+                                return <div key={field.name} className={`${getSize(field.width)}`}>
+                                    <RadioButton
                                         name={field.name}
                                         onChange={({target})=>{handleChange(field.name, target.value)}}
                                         value={field.value}

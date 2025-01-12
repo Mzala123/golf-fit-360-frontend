@@ -27,7 +27,7 @@ function ViewFittingProgress() {
     },[fittingId])
 
     return (
-        <div className="mt-4 container mx-auto w-auto lg:w-[700px]">
+        <div className="mt-4 container mx-auto px-4">
             <div className="flex flex-col gap-6">
                 <div className="flex gap-2 mb-6">
                     <ChevronLeft className={"size-8 hover:rounded-full hover:cursor-pointer hover:bg-slate-200"}
@@ -39,7 +39,7 @@ function ViewFittingProgress() {
                     {
                         fittingProgress.map((task) => {
                             return <div key={task.fittingtaskid}
-                                        className="bg-slate-100 border-l-4 border-green-600 rounded-sm p-2 flex gap-2">
+                                        className="bg-slate-100 border-l-2 border-green-600 rounded-sm p-2 flex gap-1">
                                 <div className="flex flex-col gap-1 flex-1">
                                     <h3 className="text-[16px] font-Poppins_Bold">{task.taskname} - {task.fittingtaskstatus}</h3>
                                     <p className="text-xs font-Poppins">Fitting service

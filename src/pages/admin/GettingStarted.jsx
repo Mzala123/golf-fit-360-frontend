@@ -28,9 +28,9 @@ function GettingStarted() {
 
 
     return (
-        <div className="flex flex-1 justify-center items-center flex-col">
+        <div className="flex flex-1 justify-center items-center flex-col px-4">
             <div className="flex flex-col gap-4 justify-center">
-                <p className="font-Martian text-2xl leading-loose">{gettingStarted.message} </p>
+                <p className="font-Martian text-2xl leading-loose text-center">{gettingStarted.message} </p>
             </div>
             <Button onClick={()=>{handleEditGettingStarted(gettingStarted.messageid)}}>
                 <Pencil size={20} />

@@ -7,7 +7,7 @@ import {
     performFittingTask
 } from "../../api/endpoints.js";
 import {toast} from "sonner";
-import {ChevronLeft, Pencil} from "lucide-react";
+import {ChevronLeft} from "lucide-react";
 import Button from "../../components/ui/Button.jsx";
 
 
@@ -68,9 +68,9 @@ function PerformFittingTasks() {
     },[fittingId])
 
     return (
-        <div className="mt-4 container mx-auto w-auto lg:w-[700px]">
-            <div className="flex flex-col gap-6">
-                <div className="flex gap-2 mb-6">
+        <div className="mt-4 container mx-auto px-4">
+            <div className="flex flex-col gap-4">
+                <div className="flex gap-2 mb-2">
                     <ChevronLeft className={"size-8 hover:rounded-full hover:cursor-pointer hover:bg-slate-200"}
                                  onClick={() => navigate(-1)}/>
                     <h1 className="text-2xl uppercase font-Poppins_Bold">Perform fitting tasks for {fittingDetail.firstname} {fittingDetail.lastname}</h1>
@@ -80,26 +80,19 @@ function PerformFittingTasks() {
                     {
                         fittingRequests.map((task) => {
                             return <div key={task.fittingtaskid}
-                                        className="bg-slate-100 border-l-4 border-green-600 rounded-sm p-2 flex gap-2">
+                                        className="bg-slate-100 border-l-2 border-green-600 rounded-sm p-2 flex gap-1">
                                 <div className="flex flex-col gap-1 flex-1">
                                     <h3 className="text-[16px] font-Poppins_Bold">{task.taskname} - {task.fittingtaskstatus}</h3>
                                     <p className="text-xs font-Poppins">Fitting service
                                         category: {task.fittingservicecategory}</p>
                                 </div>
                                 <div className="text-white flex gap-2 items-end p-1">
-                                    {/*{*/}
-                                    {/*    task.isdone ? '<p>task completed</p>' : <Pencil*/}
-                                    {/*        size={18}*/}
-                                    {/*        className="stroke-blue-600 hover:cursor-pointer"*/}
-                                    {/*        // onClick={() => changeToEditMode(todo)}*/}
-                                    {/*    />*/}
-                                    {/*}*/}
                                     <input
                                         type="checkbox"
                                         disabled={task.isdone}
                                         checked={task.isdone}
                                         onChange={() => handleTaskCompletion(task.fittingtaskid, task.taskname)}
-                                        className="hover:cursor-pointer"
+                                        className="text-green-600 border-2 border-green-600 ring-green-600 size-6 hover:cursor-pointer"
                                     />
                                 </div>
                             </div>

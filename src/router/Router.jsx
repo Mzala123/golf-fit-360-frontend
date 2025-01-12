@@ -1,4 +1,4 @@
-import {createBrowserRouter} from "react-router-dom";
+import {createBrowserRouter, Navigate} from "react-router-dom";
 import Login from "../components/auth/Login.jsx";
 import LayoutMain from "../components/layout/LayoutMain.jsx";
 import Register from "../components/auth/Register.jsx";
@@ -38,8 +38,16 @@ const routes = createBrowserRouter(
             element: <LayoutMain/>,
             children:[
                 {
+                    path:"",
+                    element: <Navigate to={'/'}/>
+                },
+                {
                     path:'admin',
                     children:[
+                        {
+                            path:'',
+                            element: <Navigate to={'/system/admin/home'}/>
+                        },
                         {
                             path:'home',
                             element: <HomeGolf/>
@@ -85,6 +93,10 @@ const routes = createBrowserRouter(
                 {
                     path:'customer',
                     children:[
+                        {
+                            path:'',
+                            element: <Navigate to={'/system/customer/home'}/>
+                        },
                         {
                             path:'home',
                             element: <HomeCustomer/>
