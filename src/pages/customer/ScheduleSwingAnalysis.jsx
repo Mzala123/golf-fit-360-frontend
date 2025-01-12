@@ -1,4 +1,4 @@
-import {FlipVertical, Goal, Ribbon} from "lucide-react";
+import {BicepsFlexed, FlipVertical, Goal, Ribbon, Rss, ScanLine} from "lucide-react";
 
 function ScheduleSwingAnalysis() {
     return(
@@ -37,6 +37,19 @@ function ScheduleSwingAnalysis() {
 
                 <div className="flex flex-col gap-4 rounded-lg p-4">
                     <div>
+                        <ScanLine/>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <h2 className="font-Poppins_Bold text-lg">Transition</h2>
+                        <p className="text-justify ">
+                            Weight Shift: Weight begins transferring from the back foot to the front foot.
+                            Body Coordination: The hips initiate the downswing, followed by the torso, arms, and hands.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="flex flex-col gap-4 rounded-lg p-4">
+                    <div>
                         <Ribbon/>
                     </div>
                     <div className="flex flex-col gap-2">
@@ -48,6 +61,33 @@ function ScheduleSwingAnalysis() {
                     </div>
                 </div>
 
+                <div className="flex flex-col gap-4 rounded-lg p-4">
+                    <div>
+                        <BicepsFlexed/>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <h2 className="font-Poppins_Bold text-lg">Impact</h2>
+                        <p className="text-justify ">
+                            Clubface Alignment: The face of the club should be square to the target line.
+                            Follow-Through Preparation: Proper extension through the ball ensures the swing doesn’t stop abruptly.
+                            Sweet Spot Contact: The ball is struck with the center of the clubface for maximum accuracy and power.
+                        </p>
+                    </div>
+                </div>
+
+                <div className="flex flex-col gap-4 rounded-lg p-4">
+                    <div>
+                        <Rss/>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <h2 className="font-Poppins_Bold text-lg">Follow-Through</h2>
+                        <p className="text-justify ">
+                            Body Position: Weight shifts fully to the front foot, with the back foot acting as support.
+                            Finish: The torso and hips face the target, and the club wraps around the body.
+                            Balance: A well-executed swing leaves the golfer in a balanced and controlled position.
+                        </p>
+                    </div>
+                </div>
 
             </div>
         </div>
