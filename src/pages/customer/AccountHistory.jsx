@@ -1,13 +1,11 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getListFittingRequests, readCustomerFittings} from "../../api/endpoints.js";
+import {readCustomerFittings} from "../../api/endpoints.js";
 import InputField from "../../components/form/InputField.jsx";
 import {DataType, Table} from "ka-table";
 import useSession from "../../state/useSession.js";
 
 function AccountHistory() {
-    const params = useParams();
-    const navigate = useNavigate();
     const{session} = useSession(s=>s)
     const userId = session.user.userid
 
@@ -43,6 +41,7 @@ function AccountHistory() {
                     </div>
                 </div>
                 <div className="overflow-x-auto">
+                    <div className="max-h-[800px] overflow-y-auto">
                     <Table
                         columns={[
                             {key: 'fittingservicecategory', title: 'Fitting Service', dataType: DataType.String},
@@ -73,6 +72,7 @@ function AccountHistory() {
                             },
                         }}
                     />
+                    </div>
                 </div>
             </div>
         </div>

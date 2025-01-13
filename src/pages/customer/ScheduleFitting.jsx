@@ -149,7 +149,7 @@ function ScheduleFitting() {
             fittingScheduleDate,
             fittingScheduleTime
         };
-
+        console.log(formDataToSubmit);
         scheduleFittingRequest(formDataToSubmit).then(response=>{
             toast.success(response.data.message);
             navigate('/system/customer/fitting_progress')

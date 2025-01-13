@@ -61,6 +61,7 @@ function FittingProgress() {
                     </div>
                 </div>
                 <div className="overflow-x-auto">
+                    <div className="max-h-[800px] overflow-y-auto">
                     <Table
                         columns={[
                             {key: 'fittingservicecategory', title: 'Fitting Service', dataType: DataType.String},
@@ -100,6 +101,7 @@ function FittingProgress() {
                             }
                         }}
                     />
+                    </div>
                 </div>
             </div>
         </div>

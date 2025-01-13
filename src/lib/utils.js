@@ -6,7 +6,6 @@ export default function queryToStringObject(queryString) {
     return Object.fromEntries(new URLSearchParams(queryString))
 }
 
-
 export function setCookie(name, value, days) {
     let expires = "";
     if (days) {

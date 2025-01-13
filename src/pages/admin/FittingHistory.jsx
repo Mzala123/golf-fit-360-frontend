@@ -41,6 +41,7 @@ function FittingHistory() {
                     </div>
                 </div>
                 <div className="overflow-x-auto">
+                    <div className="max-h-[800px] overflow-y-auto">
                     <Table
                         columns={[
                             {key: 'formatted_fittingscheduledate', title: 'Fitting Date', dataType: DataType.String},
@@ -74,6 +75,7 @@ function FittingHistory() {
                             },
                         }}
                     />
+                    </div>
                 </div>
             </div>
         </div>

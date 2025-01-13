@@ -63,46 +63,48 @@ function CustomerList() {
                     </div>
                 </div>
                 <div className="overflow-x-auto">
-                <Table
-                        columns={[
-                            {key: 'firstname', title: 'Firstname', dataType: DataType.String},
-                            {key: 'lastname', title: 'Lastname', dataType: DataType.String},
-                            {key: 'email', title: 'Email', dataType: DataType.String},
-                            {key: 'phonenumber', title: 'Phonenumber', dataType: DataType.String },
-                            { key: 'golfclubsize', title: 'Golf Club Size', dataType: DataType.String },
-                            { key: 'address', title: 'Address', dataType: DataType.String },
-                            { key: ':edit', title:'Manage', width: 70, style: { textAlign: 'center' } },
-                        ]}
-                        data={customers}
-                        rowKeyField={'customerid'}
-                        searchText={searchText}
-                        noData={{ text: "Customer details not found!" }}
-                        childComponents={{
-                            table: {
-                                elementAttributes: () => ({
-                                    className: 'table-auto w-full border-collapse border border-gray-300',
-                                }),
-                            },
-                            headCell: {
-                                elementAttributes: () => ({
-                                    className: 'bg-gray-200 text-left px-4 py-2 text-black font-Poppins_Bold border-b border-gray-300',
-                                }),
-                            },
-                            cell: {
-                                elementAttributes: () => ({
-                                    className: 'px-4 py-2 text-gray-600 border-b border-gray-300',
-                                }),
-                            },
-                            cellText: {
-                                content: (props) => {
-                                    switch (props.column.key) {
-                                        case ':edit':
-                                            return <EditRow {...props} />;
+                    <div className="max-h-[800px] overflow-y-auto">
+                        <Table
+                                columns={[
+                                    {key: 'firstname', title: 'Firstname', dataType: DataType.String},
+                                    {key: 'lastname', title: 'Lastname', dataType: DataType.String},
+                                    {key: 'email', title: 'Email', dataType: DataType.String},
+                                    {key: 'phonenumber', title: 'Phonenumber', dataType: DataType.String },
+                                    { key: 'golfclubsize', title: 'Golf Club Size', dataType: DataType.String },
+                                    { key: 'address', title: 'Address', dataType: DataType.String },
+                                    { key: ':edit', title:'Manage', width: 70, style: { textAlign: 'center' } },
+                                ]}
+                                data={customers}
+                                rowKeyField={'customerid'}
+                                searchText={searchText}
+                                noData={{ text: "Customer details not found!" }}
+                                childComponents={{
+                                    table: {
+                                        elementAttributes: () => ({
+                                            className: 'table-auto w-full border-collapse border border-gray-300',
+                                        }),
+                                    },
+                                    headCell: {
+                                        elementAttributes: () => ({
+                                            className: 'bg-gray-200 text-left px-4 py-2 text-black font-Poppins_Bold border-b border-gray-300',
+                                        }),
+                                    },
+                                    cell: {
+                                        elementAttributes: () => ({
+                                            className: 'px-4 py-2 text-gray-600 border-b border-gray-300',
+                                        }),
+                                    },
+                                    cellText: {
+                                        content: (props) => {
+                                            switch (props.column.key) {
+                                                case ':edit':
+                                                    return <EditRow {...props} />;
+                                            }
+                                        },
                                     }
-                                },
-                            }
-                        }}
-                    />
+                                }}
+                            />
+                    </div>
                 </div>
             </div>
         </div>

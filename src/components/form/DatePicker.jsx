@@ -9,14 +9,13 @@ function DatePicker({placeholder, value, onChange, name, onKeyUp, type="date-pic
 
     const dateInfo = value?.split('|')
     const[occupiedDate, setOccupiedDate ] = useState([])
-    const currentDay = new Date()
-
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(currentDay);
+    // const currentDay = new Date()
+    // const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    // const formattedDate = new Intl.DateTimeFormat('en-US', options).format(currentDay);
 
     function handleGetOccupiedDate(){
         getAvailableFittingRequestDateTime().then((response)=>{
-            setOccupiedDate(response.data.map((data)=>({...data, date: new Date(data.date)})))
+            setOccupiedDate(response.data.map((data)=>({...data, date: new Date(data.date).toLocaleDateString('en-CA')})))
         }).catch((error)=>{
             console.log(error);
         })
@@ -55,14 +54,17 @@ function DatePicker({placeholder, value, onChange, name, onKeyUp, type="date-pic
                     selected={ dateTime.date ? new Date(dateTime.date) : new Date() }
                     onSelect={(date)=>{
                         if(date){
-                            handleChange("date", date.toISOString())
+                            const formattedDate = date.toLocaleDateString('en-CA');
+                            handleChange("date", formattedDate)
+                            onChange(`${formattedDate}|${dateTime.time}`);
                         }else{
                             handleChange("date","")
+                            onChange("");
                         }
                     }}
                     disabled={(date)=>{
                         const dayOccupiedDate = occupiedDate.filter((data)=>{
-                            return isSameDay(data.date, dateTime.date)
+                            return isSameDay(data.date, date)
                         })
                         return (isBefore(date, new Date()) && !isToday(date)) ||  (dayOccupiedDate.length >= timeOptions.length)
                     }}
@@ -70,9 +72,9 @@ function DatePicker({placeholder, value, onChange, name, onKeyUp, type="date-pic
                 />
             </div>
             <div className="space-y-2 h-72 py-4 overflow-y-auto">
-                <div className="font-Poppins_Bold text-lg">
-                    {formattedDate}
-                </div>
+                {/*<div className="font-Poppins_Bold text-lg">*/}
+                {/*    {formattedDate}*/}
+                {/*</div>*/}
                 {
                     timeOptions.map((time, index)=>{
 
