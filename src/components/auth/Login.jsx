@@ -103,6 +103,7 @@ function Login() {
             acc[field.name] = field.value;
             return acc;
         }, {});
+
         handleLogin(formData)
     };
 
@@ -118,7 +119,7 @@ function Login() {
                     <div className="flex justify-center items-center mb-4">
                         <img className="h-24" src="/images/golflogo.png" alt="" />
                     </div>
-                    {/*{message && message}*/}
+                    {message && message}
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                         {fields.map((field) => (
                             <div key={field.name}>

@@ -72,9 +72,9 @@ function DatePicker({placeholder, value, onChange, name, onKeyUp, type="date-pic
                 />
             </div>
             <div className="space-y-2 h-72 py-4 overflow-y-auto">
-                {/*<div className="font-Poppins_Bold text-lg">*/}
-                {/*    {formattedDate}*/}
-                {/*</div>*/}
+                <div className="font-Poppins_Bold text-lg">
+                    Select Time
+                </div>
                 {
                     timeOptions.map((time, index)=>{
 

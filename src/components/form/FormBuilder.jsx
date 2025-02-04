@@ -121,7 +121,6 @@ function FormBuilder({onSubmit, formFields=[] , formTitle="",  wizardMode = fals
             return;
         }
 
-
         setIsSubmitting(true)
         const formData = fields.reduce((acc, field)=>{
             acc[field.name] = field.value;

@@ -1,6 +1,5 @@
 import InputField from "../../components/form/InputField.jsx";
 import {DataType, Table} from "ka-table";
-import {Pencil} from "lucide-react";
 import {useNavigate, useParams} from "react-router-dom";
 import {getListFittingRequests} from "../../api/endpoints.js";
 import {useEffect, useState} from "react";
