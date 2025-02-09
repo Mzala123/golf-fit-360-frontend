@@ -1,27 +1,22 @@
 import InputField from "../../components/form/InputField.jsx";
 import {DataType, Table} from "ka-table";
-import {useNavigate, useParams} from "react-router-dom";
 import {getListFittingRequests} from "../../api/endpoints.js";
 import {useEffect, useState} from "react";
+import {useQuery} from "@tanstack/react-query";
 
 function FittingRequests() {
 
-   const params = useParams();
-   const navigate = useNavigate();
 
-   const[fittingRequests, setFittingRequests]= useState([]);
    const [searchText, setSearchText] = useState("");
 
-   function handleGetFittingRequests() {
-       getListFittingRequests().then((response) => {
-           console.log(response.data);
-           setFittingRequests(response.data)
-       })
-   }
+   const {data} = useQuery({
+       queryKey: ["fitting-request"],
+       queryFn: async () => {
+           const response = await getListFittingRequests();
+           return response.data;
+       }
+   })
 
-   useEffect(() => {
-       handleGetFittingRequests();
-   },[])
 
     return (
         <div className="container mx-auto px-4 py-6">
@@ -54,7 +49,7 @@ function FittingRequests() {
                             { key: 'golfclubsize', title: 'Golf Club Size', dataType: DataType.String },
                             { key: 'address', title: 'Address', dataType: DataType.String },
                         ]}
-                        data={fittingRequests}
+                        data={data}
                         rowKeyField={'fittingid'}
                         searchText={searchText}
                         noData={{ text: "fitting request details not found!" }}

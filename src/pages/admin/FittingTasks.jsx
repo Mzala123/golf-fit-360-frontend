@@ -1,25 +1,24 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 import {getListFittingRequests} from "../../api/endpoints.js";
 import InputField from "../../components/form/InputField.jsx";
 import {DataType, Table} from "ka-table";
-import {Cog, Pencil} from "lucide-react";
+import {Cog} from "lucide-react";
+import {useQuery} from "@tanstack/react-query";
 
 function FittingTasks() {
-    const params = useParams();
-    const navigate = useNavigate();
 
-    const[fittingRequests, setFittingRequests]= useState([]);
     const [searchText, setSearchText] = useState("");
 
-    function handleGetFittingRequests() {
-        getListFittingRequests().then((response) => {
-            console.log(response.data);
-            setFittingRequests(response.data)
-        })
-    }
+    const {data} = useQuery({
+        queryKey: ["fitting-request"],
+        queryFn: async () => {
+            const response = await getListFittingRequests();
+            return response.data;
+        }
+    })
 
-    const ManageRow = ({ dispatch, rowKeyValue }) => {
+    const ManageRow = ({rowKeyValue }) => {
         const navigate = useNavigate();
 
         const handleEdit = () => {
@@ -35,11 +34,6 @@ function FittingTasks() {
             </button>
         );
     };
-
-
-    useEffect(() => {
-        handleGetFittingRequests();
-    },[])
 
     return (
         <div className="container mx-auto px-4 py-6">
@@ -73,7 +67,7 @@ function FittingTasks() {
                             { key: 'address', title: 'Address', dataType: DataType.String },
                             { key: ':manage', title:'Manage Task', width: 70, style: { textAlign: 'center' } },
                         ]}
-                        data={fittingRequests}
+                        data={data}
                         rowKeyField={'fittingid'}
                         searchText={searchText}
                         noData={{ text: "fitting request details not found!" }}
