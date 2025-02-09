@@ -7,10 +7,6 @@ import {Pencil} from "lucide-react";
 
 function CustomerList() {
 
-    const params = useParams();
-    const navigate = useNavigate();
-
-    const isId = useMemo(()=>params.id !== '+', [params])
 
     const[customers, setCustomers]= useState([]);
     const[searchText, setSearchText] = useState("");
@@ -24,7 +20,6 @@ function CustomerList() {
 
     const EditRow = ({ dispatch, rowKeyValue }) => {
         const navigate = useNavigate();
-
         const handleEdit = () => {
             navigate(`/system/admin/edit_customer/${rowKeyValue}`);
         };
