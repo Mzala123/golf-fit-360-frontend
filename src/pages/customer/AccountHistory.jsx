@@ -1,27 +1,23 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {readCustomerFittings} from "../../api/endpoints.js";
 import InputField from "../../components/form/InputField.jsx";
 import {DataType, Table} from "ka-table";
 import useSession from "../../state/useSession.js";
+import {useQuery} from "@tanstack/react-query";
 
 function AccountHistory() {
     const{session} = useSession(s=>s)
     const userId = session.user.userid
 
-    const[customerFittingHistory, setCustomerFittingHistory]= useState([]);
     const [searchText, setSearchText] = useState("");
 
-    function handleReadCustomerFittings() {
-        readCustomerFittings(userId).then((response) => {
-            console.log(response.data);
-            setCustomerFittingHistory(response.data)
-        })
-    }
-
-    useEffect(() => {
-        handleReadCustomerFittings();
-    },[])
+    const {data} = useQuery({
+        queryKey: ["customer-history-progress", userId],
+        queryFn: async () => {
+            const response = await readCustomerFittings(userId);
+            return response.data;
+        }
+    })
 
     return (
         <div className="container mx-auto px-4 py-6">
@@ -50,7 +46,7 @@ function AccountHistory() {
                             {key: 'formatted_fittingscheduledate', title: 'Fitting Date', dataType: DataType.String},
                             {key: 'fittingscheduletime', title: 'Fitting Time', dataType: DataType.String}
                         ]}
-                        data={customerFittingHistory}
+                        data={data}
                         rowKeyField={'fittingid'}
                         searchText={searchText}
                         noData={{ text: "fitting request details not found!" }}

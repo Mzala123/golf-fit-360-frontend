@@ -11,7 +11,7 @@ function FittingTasks() {
     const [searchText, setSearchText] = useState("");
 
     const {data} = useQuery({
-        queryKey: ["fitting-request"],
+        queryKey: ["fitting-tasks"],
         queryFn: async () => {
             const response = await getListFittingRequests();
             return response.data;

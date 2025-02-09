@@ -1,25 +1,22 @@
 import {getStartedMessage} from "../../api/endpoints.js";
-import {useEffect, useState} from "react";
+import {useQuery} from "@tanstack/react-query";
 
 function GettingStartedCustomer() {
 
-    const[gettingStarted, settingStarted] = useState({})
 
-    function handleGettingStarted() {
-        getStartedMessage().then((response) => {
-            console.log(response.data)
-            settingStarted(response.data)
-        })
-    }
+    const {data} = useQuery({
+        queryKey: ["getting-started"],
+        queryFn: async () => {
+            const response = await getStartedMessage();
+            return response.data;
+        }
+    })
 
-    useEffect(() => {
-        handleGettingStarted();
-    },[])
 
     return(
         <div className="flex flex-1 justify-center items-center px-4">
           <p className="font-Martian text-2xl leading-loose text-center">
-              {gettingStarted.message}
+              {data?.message}
           </p>
         </div>
     )

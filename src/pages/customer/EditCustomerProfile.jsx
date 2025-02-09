@@ -12,7 +12,6 @@ function EditCustomerProfile() {
     const customerId = params.id
     const[formFields, setFormFields] = useState([]);
     const[isLoading, setIsLoading] = useState(true);
-    const [formData, setFormData] = useState({});
 
     const genderOptions =  useMemo(()=>(
         [

@@ -18,7 +18,7 @@ function CustomerList() {
     function handleGetCustomers() {
         getAllCustomers().then((response) => {
             console.log(response.data);
-            setCustomers(response.data)
+            setCustomers(response.data.data)
         })
     }
 

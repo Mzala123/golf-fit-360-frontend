@@ -1,26 +1,21 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {getfittingRequestSchedules, getListFittingRequests} from "../../api/endpoints.js";
+import {useState} from "react";
+import {getfittingRequestSchedules} from "../../api/endpoints.js";
 import InputField from "../../components/form/InputField.jsx";
 import {DataType, Table} from "ka-table";
+import {useQuery} from "@tanstack/react-query";
 
 function FittingSchedule() {
-    const params = useParams();
-    const navigate = useNavigate();
 
-    const[fittingRequests, setFittingRequests]= useState([]);
     const [searchText, setSearchText] = useState("");
 
-    function handlefittingRequestSchedules() {
-        getfittingRequestSchedules().then((response) => {
-            console.log(response.data);
-            setFittingRequests(response.data)
-        })
-    }
+    const {data} = useQuery({
+        queryKey: ["fitting-tasks"],
+        queryFn: async () => {
+            const response = await getfittingRequestSchedules();
+            return response.data;
+        }
+    })
 
-    useEffect(() => {
-        handlefittingRequestSchedules();
-    },[])
 
     return (
         <div className="container mx-auto px-4 py-6">
@@ -49,7 +44,7 @@ function FittingSchedule() {
                             {key: 'lastname', title: 'Lastname', dataType: DataType.String},
                             {key: 'status', title: 'Status', dataType: DataType.String},
                         ]}
-                        data={fittingRequests}
+                        data={data}
                         rowKeyField={'fittingid'}
                         searchText={searchText}
                         noData={{ text: "fitting schedules not found!" }}

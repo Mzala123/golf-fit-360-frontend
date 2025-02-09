@@ -1,28 +1,27 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import useSession from "../../state/useSession.js";
-import {useEffect, useState} from "react";
-import {readCustomerFittings, viewFittingProgressList} from "../../api/endpoints.js";
+import {useState} from "react";
+import { viewFittingProgressList} from "../../api/endpoints.js";
 import InputField from "../../components/form/InputField.jsx";
 import {DataType, Table} from "ka-table";
-import {Eye, Pencil} from "lucide-react";
+import {Eye} from "lucide-react";
+import {useQuery} from "@tanstack/react-query";
 
 function FittingProgress() {
-    const params = useParams();
-    const navigate = useNavigate();
+
     const{session} = useSession(s=>s)
     const userId = session.user.userid
 
-    const[customerFittingProgress, setCustomerFittingProgress]= useState([]);
     const [searchText, setSearchText] = useState("");
+    const {data} = useQuery({
+        queryKey: ["customer-fitting-progress", userId],
+        queryFn: async () => {
+            const response = await viewFittingProgressList(userId);
+            return response.data;
+        }
+    })
 
-    function handleViewFittingProgressList() {
-        viewFittingProgressList(userId).then((response) => {
-            console.log(response.data);
-            setCustomerFittingProgress(response.data)
-        })
-    }
-
-    const ViewRow = ({ dispatch, rowKeyValue }) => {
+    const ViewRow = ({rowKeyValue }) => {
         const navigate = useNavigate();
 
         const handleEdit = () => {
@@ -38,10 +37,6 @@ function FittingProgress() {
             </button>
         );
     };
-
-    useEffect(() => {
-        handleViewFittingProgressList();
-    },[])
 
     return (
         <div className="container mx-auto px-4 py-6">
@@ -71,7 +66,7 @@ function FittingProgress() {
                             {key: 'fittingscheduletime', title: 'Fitting Time', dataType: DataType.String},
                             { key: ':view', title:'Progress', width: 70, style: { textAlign: 'center' } },
                         ]}
-                        data={customerFittingProgress}
+                        data={data}
                         rowKeyField={'fittingid'}
                         searchText={searchText}
                         noData={{ text: "fitting request details not found!" }}

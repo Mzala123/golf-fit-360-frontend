@@ -1,6 +1,6 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useMemo, useState} from "react";
-import {getOneCustomer, readOneGolfClubMessage, updateCustomer, updateGolfClubMessage} from "../../api/endpoints.js";
+import {readOneGolfClubMessage, updateGolfClubMessage} from "../../api/endpoints.js";
 import {toast} from "sonner";
 import PageLoader from "../../components/ui/PageLoader.jsx";
 import FormBuilder from "../../components/form/FormBuilder.jsx";
@@ -11,7 +11,6 @@ function EditGettingStartedMessage() {
     const id  = params.id
     const[formFields, setFormFields] = useState([]);
     const[isLoading, setIsLoading] = useState(true);
-    const [formData, setFormData] = useState({});
 
 
     const gettingStartedForm  = useMemo(()=>(
@@ -65,7 +64,6 @@ function EditGettingStartedMessage() {
                 formFields={formFields}
                 formTitle="Update Getting Started Message"
                 onSubmit={handleSubmit}
-                // setFormData={setFormData}
             />
         </div>
     )
