@@ -1,108 +1,112 @@
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useMemo, useState} from "react";
-import {getAllCustomers} from "../../api/endpoints.js";
-import {DataType, Table} from "ka-table";
-import InputField from "../../components/form/InputField.jsx";
+import {useNavigate} from "react-router-dom";
 import {Pencil} from "lucide-react";
+import {useQuery} from "@tanstack/react-query";
+import {useState} from "react";
+import DataTable from "../../components/ui/DataTable.jsx";
+import {getAllCustomers} from "../../api/endpoints.js";
+
+const columnHeaders = [
+    {key: "firstname", title: "Full name", width: 300, DataType: "string", filterable: true},
+    {key: "lastname", title: "Username", width: 300, DataType: "string", filterable: true},
+    {key: "email", title: "Email", width: 300, DataType: "string", filterable: true},
+    {key: "address", title: "Address", width: 300, DataType: "string", filterable: true},
+    {key: "phonenumber", title: "Phone number", width: 300, DataType: "string", filterable: true},
+    {key: "golfclubsize", title: "Golf Club Size", width: 300, DataType: "string", filterable: true},
+    {key: "gender", title: "Gender", width: 300, DataType: "string", filterable: true},
+]
 
 function CustomerList() {
 
+    const navigate = useNavigate();
+    const [paginate, setPaginate] = useState({
+        page: 1,
+        limit: 20,
+        totalPages: 0,
+        searchQuery: "",
+        sort: ""
+    })
 
-    const[customers, setCustomers]= useState([]);
-    const[searchText, setSearchText] = useState("");
+    const {data, isLoading, refetch} = useQuery({
+        queryKey: ["customers", paginate.limit, paginate.page, paginate.searchQuery,paginate.sort],
+        queryFn: async () => {
+            const response = await getAllCustomers(paginate.page, paginate.limit, paginate.searchQuery,paginate.sort)
+            setPaginate({
+                page: response.data.currentPage,
+                limit: response.data.perPage,
+                totalPages: response.data.totalPages,
+                searchQuery: paginate.searchQuery,
+                sort: paginate.sort
+            })
+            return response.data.data
+        }
+    })
 
-    function handleGetCustomers() {
-        getAllCustomers().then((response) => {
-            console.log(response.data);
-            setCustomers(response.data.data)
-        })
-    }
-
-    const EditRow = ({ dispatch, rowKeyValue }) => {
-        const navigate = useNavigate();
-        const handleEdit = () => {
-            navigate(`/system/admin/edit_customer/${rowKeyValue}`);
-        };
-
-        return (
-            <button
-                className="text-blue-600 hover:text-blue-800"
-                onClick={handleEdit}
-            >
-                <Pencil className="size-5" />
-            </button>
-        );
-    };
-
-    useEffect(()=>{
-        handleGetCustomers()
-    },[])
-
+    console.log(data)
 
     return (
-        <div className="container mx-auto px-4 py-6">
+        <div className="w-full flex mx-auto px-4 py-6">
 
-            <div className="bg-white rounded-md w-full flex flex-col gap-6">
-                <div className="flex  justify-between items-center">
-                    <h1 className="text-2xl uppercase font-Poppins_Bold">Customer Profile List</h1>
-                    <div className="flex justify-end ">
-                        <InputField onChange={(e) => {
-                            setSearchText(e.currentTarget.value)
-                        }}
-                                    value={searchText}
-                                    name={'searchText'}
-                                    label={''} type={'search'}
-                                    className={'search_field'}
-                                    placeholder="search"
-                        />
-                    </div>
-                </div>
-                <div className="overflow-x-auto">
-                    <div className="max-h-[800px] overflow-y-auto">
-                        <Table
-                                columns={[
-                                    {key: 'firstname', title: 'Firstname', dataType: DataType.String},
-                                    {key: 'lastname', title: 'Lastname', dataType: DataType.String},
-                                    {key: 'email', title: 'Email', dataType: DataType.String},
-                                    {key: 'phonenumber', title: 'Phonenumber', dataType: DataType.String },
-                                    { key: 'golfclubsize', title: 'Golf Club Size', dataType: DataType.String },
-                                    { key: 'address', title: 'Address', dataType: DataType.String },
-                                    { key: ':edit', title:'Manage', width: 70, style: { textAlign: 'center' } },
-                                ]}
-                                data={customers}
-                                rowKeyField={'customerid'}
-                                searchText={searchText}
-                                noData={{ text: "Customer details not found!" }}
-                                childComponents={{
-                                    table: {
-                                        elementAttributes: () => ({
-                                            className: 'table-auto w-full border-collapse border border-gray-300',
-                                        }),
-                                    },
-                                    headCell: {
-                                        elementAttributes: () => ({
-                                            className: 'bg-gray-200 text-left px-4 py-2 text-black font-Poppins_Bold border-b border-gray-300',
-                                        }),
-                                    },
-                                    cell: {
-                                        elementAttributes: () => ({
-                                            className: 'px-4 py-2 text-gray-600 border-b border-gray-300',
-                                        }),
-                                    },
-                                    cellText: {
-                                        content: (props) => {
-                                            switch (props.column.key) {
-                                                case ':edit':
-                                                    return <EditRow {...props} />;
-                                            }
+            <div className="bg-white rounded-md w-full flex flex-1 flex-col gap-6">
+                <div className="overflow-x-auto flex flex-1">
+                    <div className="flex flex-1 w-full overflow-y-auto ">
+                        <DataTable
+                            title="Customer Profile List"
+                            description="A customer report listing all registered customers."
+                            data={data}
+                            columnHeaders={columnHeaders}
+                            rowPrimaryKey={"customerid"}
+                            isLoading={isLoading}
+                                actions={
+                                [
+                                    {
+                                        icon: <Pencil/>,
+                                        onClick: (rowData)=>{
+                                            navigate(`/system/admin/edit_customer/${rowData.customerid}`)
                                         },
+                                        className:"flex gap-2 text-blue-500 size-4 justify-center items-center",
                                     }
-                                }}
-                            />
+                                ]
+                            }
+                            paginate={paginate}
+                            onPageChange={(page) => {
+                                setPaginate((paginate) => {
+                                    return {
+                                        ...paginate,
+                                        page: page
+                                    }
+                                });
+                            }}
+                            onLimitChange={(limit) => {
+                                setPaginate((paginate) => {
+                                    return {
+                                        ...paginate,
+                                        limit: limit
+                                    }
+                                })
+                            }}
+
+                            onSearch={(searchQuery) => {
+                                setPaginate((paginate) => {
+                                    return {
+                                        ...paginate,
+                                        searchQuery: searchQuery
+                                    }
+                                })
+                            }}
+                            onSort={(col) => {
+                                setPaginate((paginate) => {
+                                    return {
+                                        ...paginate,
+                                        sort: paginate.sort.includes(col) ? paginate.sort.includes("-") ? col : `-${col}` : col
+                                    }
+                                })
+                            }}
+                        />
                     </div>
                 </div>
             </div>
         </div>
     )
 }
+
 export default CustomerList;

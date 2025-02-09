@@ -14,8 +14,8 @@ export function loginUser(body){
 }
 
 //start customer endpoints
-export function getAllCustomers(){
-    return http.get('/customers',{
+export function getAllCustomers(page, limit, searchQuery,sort){
+    return http.get(`/customers?page=${page}&limit=${limit}&search=${searchQuery}&sort=${sort}`,{
         headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
     } );
 }
