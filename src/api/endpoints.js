@@ -52,8 +52,8 @@ export function updateGolfClubMessage(messageId, body){
 }
 
 
-export function getListFittingRequests(){
-    return http.get(`/fittingRequest`, {
+export function getListFittingRequests(page, limit, searchQuery,sort){
+    return http.get(`/fittingRequest?page=${page}&limit=${limit}&search=${searchQuery}&sort=${sort}`, {
         headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
     })
 }
@@ -70,14 +70,14 @@ export function getFittingRequestTasksList(fittingId){
     })
 }
 
-export function getfittingRequestSchedules(){
-    return http.get(`/fittingRequestSchedules`, {
+export function getfittingRequestSchedules(page, limit, searchQuery,sort){
+    return http.get(`/fittingRequestSchedules?page=${page}&limit=${limit}&search=${searchQuery}&sort=${sort}`, {
         headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
     })
 }
 
-export function getfittingRequestHistory(){
-    return http.get(`/fittingRequestHistory`, {
+export function getfittingRequestHistory(page, limit, searchQuery,sort){
+    return http.get(`/fittingRequestHistory?page=${page}&limit=${limit}&search=${searchQuery}&sort=${sort}`, {
         headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
     })
 }

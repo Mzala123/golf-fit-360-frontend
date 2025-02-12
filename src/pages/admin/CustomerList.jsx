@@ -4,6 +4,7 @@ import {useQuery} from "@tanstack/react-query";
 import {useState} from "react";
 import DataTable from "../../components/ui/DataTable.jsx";
 import {getAllCustomers} from "../../api/endpoints.js";
+import error from "eslint-plugin-react/lib/util/error.js";
 
 const columnHeaders = [
     {key: "firstname", title: "Full name", width: 300, DataType: "string", filterable: true},
@@ -26,7 +27,7 @@ function CustomerList() {
         sort: ""
     })
 
-    const {data, isLoading, refetch} = useQuery({
+    const {data, isLoading, error} = useQuery({
         queryKey: ["customers", paginate.limit, paginate.page, paginate.searchQuery,paginate.sort],
         queryFn: async () => {
             const response = await getAllCustomers(paginate.page, paginate.limit, paginate.searchQuery,paginate.sort)
@@ -41,7 +42,9 @@ function CustomerList() {
         }
     })
 
-    console.log(data)
+    if(error){
+        return <div className="flex w-full bg-red-300 h-8 text-center text-stone-50 justify-center items-center"> A {error.message} error occured </div>
+    }
 
     return (
         <div className="w-full flex mx-auto px-4 py-6">

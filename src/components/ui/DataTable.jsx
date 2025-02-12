@@ -30,9 +30,6 @@ function DataTable({
                 render: (rowData) => <ButtonActions rowData={rowData} actions={actions}/>
             }] : columnHeaders;
 
-    console.log("i am the update ", updatedColumnHeaders);
-    console.log("i am rows", rows)
-
     return (
         <div className="flex flex-1 flex-col gap-2 rounded-md w-full bg-white">
             <div className="w-full flex flex-col gap-2 items-center justify-between py-2 lg:flex-row">

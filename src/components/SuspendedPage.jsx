@@ -11,5 +11,5 @@ export default function SuspendedPage({ page }) {
 }
 
 SuspendedPage.propTypes = {
-    page: PropTypes.node.isRequired, // Ensures `page` is a valid React renderable element
+    page: PropTypes.node.isRequired,
 };

@@ -1,5 +1,6 @@
 import {LoaderCircle} from 'lucide-react'
 import PropTypes from "prop-types";
+import DataTable from "./DataTable.jsx";
 
 function PageLoader({children}) {
 
@@ -15,3 +16,4 @@ PageLoader.propTypes = {
 }
 
 export default PageLoader;
+
