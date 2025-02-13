@@ -16,7 +16,7 @@ function FittingProgress() {
     const {data} = useQuery({
         queryKey: ["customer-fitting-progress", userId],
         queryFn: async () => {
-            const response = await viewFittingProgressList(userId);
+            const response = await viewFittingProgressList();
             return response.data;
         }
     })

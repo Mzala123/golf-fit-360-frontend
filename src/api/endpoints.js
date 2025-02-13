@@ -96,14 +96,14 @@ export function scheduleFittingRequest(body){
 
 
 
-export function readCustomerFittings(userId){
-    return http.get(`/readCustomerFittings/${userId}`, {
+export function readCustomerFittings(){
+    return http.get(`/readCustomerFittings`, {
         headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
     })
 }
 
-export function viewFittingProgressList(userId){
-    return http.get(`/viewFittingProgressList/${userId}`, {
+export function viewFittingProgressList(){
+    return http.get(`/viewFittingProgressList`, {
         headers: {"Content-Type": "application/json", "Authorization": `Bearer ${getCookie("access_token")}`},
     })
 }

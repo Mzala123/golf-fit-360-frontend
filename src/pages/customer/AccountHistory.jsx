@@ -14,7 +14,7 @@ function AccountHistory() {
     const {data} = useQuery({
         queryKey: ["customer-history-progress", userId],
         queryFn: async () => {
-            const response = await readCustomerFittings(userId);
+            const response = await readCustomerFittings();
             return response.data;
         }
     })
