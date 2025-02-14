@@ -4,7 +4,6 @@ import {useQuery} from "@tanstack/react-query";
 import {useState} from "react";
 import DataTable from "../../components/ui/DataTable.jsx";
 import {getAllCustomers} from "../../api/endpoints.js";
-import error from "eslint-plugin-react/lib/util/error.js";
 
 const columnHeaders = [
     {key: "firstname", title: "Full name", width: 300, DataType: "string", filterable: true},

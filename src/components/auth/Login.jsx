@@ -13,7 +13,10 @@ function Login() {
     const query = useLocation()
     const {setSession} = useSession(s=> s)
 
-    const{message, type} = queryToStringObject(query.search)
+    console.log(query)
+
+    const{error} = queryToStringObject(query.search)
+    console.log(error)
 
     const loginFields = useMemo(()=>(
         [
@@ -112,14 +115,14 @@ function Login() {
     return (
         <div className="bg-white h-screen flex justify-center items-center">
             <div className="flex">
-                {/*<div className="bg-pink-300">*/}
-                {/*    hello*/}
-                {/*</div>*/}
+                <div className="bg-pink-300">
+                    {/*{error}*/}
+                </div>
                 <div className="flex gap-4 flex-col p-4 rounded-md w-[480px]">
                     <div className="flex justify-center items-center mb-4">
                         <img className="h-24" src="/images/golflogo.png" alt="" />
                     </div>
-                    {message && message}
+                    {error && <div className="flex justify-center text-red-500"></div> }
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                         {fields.map((field) => (
                             <div key={field.name}>

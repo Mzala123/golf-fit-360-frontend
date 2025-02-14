@@ -14,8 +14,8 @@ http.interceptors.response.use((response)=>{
     if(error.response){
         switch(error.response.status){
             case 401:
-                toast.error(response.data.message);
-                window.location.href="/?error=Your session has expired, please login";
+                toast.error(response.data.message || "Incorrect credentials");
+                 window.location.href="/?error=Your session has expired, please login";
                 break;
             default:
                 break;
