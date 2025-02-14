@@ -1,5 +1,5 @@
 import Button from "../ui/Button.jsx";
-import PageLoader from "../ui/PageLoader.jsx";
+// import PageLoader from "../ui/PageLoader.jsx";
 import {useMemo, useState} from "react";
 import InputField from "../form/InputField.jsx";
 import {Link, useLocation, useNavigate} from "react-router-dom";
@@ -13,9 +13,8 @@ function Login() {
     const query = useLocation()
     const {setSession} = useSession(s=> s)
 
-    console.log(query)
+    const {error} = queryToStringObject(query.search)
 
-    const{error} = queryToStringObject(query.search)
     console.log(error)
 
     const loginFields = useMemo(()=>(
@@ -84,8 +83,10 @@ function Login() {
                 navigate("/system/customer");
             }
 
-        }).catch(error=>{
-            toast.error(`${error.response.data.message}`);
+        }).catch(err=>{
+            //toast.error(`${err.response.data.message}`);
+            //error = err.response.data.message;
+            console.log(err);
         }).finally(()=>{
 
         })
@@ -115,14 +116,14 @@ function Login() {
     return (
         <div className="bg-white h-screen flex justify-center items-center">
             <div className="flex">
-                <div className="bg-pink-300">
-                    {/*{error}*/}
-                </div>
+                {/*<div className="bg-pink-300">*/}
+                {/*    {error}*/}
+                {/*</div>*/}
                 <div className="flex gap-4 flex-col p-4 rounded-md w-[480px]">
                     <div className="flex justify-center items-center mb-4">
                         <img className="h-24" src="/images/golflogo.png" alt="" />
                     </div>
-                    {error && <div className="flex justify-center text-red-500"></div> }
+                    {error && <div className="flex justify-center text-red-500">{error}</div> }
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                         {fields.map((field) => (
                             <div key={field.name}>

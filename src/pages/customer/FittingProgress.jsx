@@ -46,7 +46,8 @@ function FittingProgress() {
                     <div className="flex flex-1 w-full overflow-y-auto">
                     <DataTable
                         data={data}
-                        title={""}
+                        title={"Customer Fitting Progress"}
+                        description="Report showing customer fitting service progress"
                         columnHeaders={columns}
                         rowPrimaryKey={'fittingid'}
                         paginate={paginate}

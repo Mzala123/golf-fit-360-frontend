@@ -1,8 +1,4 @@
 import axios from "axios";
-import {toast} from "sonner";
-import * as response from "autoprefixer";
-
-
 const http = axios.create({
     baseURL: 'http://localhost:3000/api/',
 })
@@ -14,8 +10,7 @@ http.interceptors.response.use((response)=>{
     if(error.response){
         switch(error.response.status){
             case 401:
-                toast.error(response.data.message || "Incorrect credentials");
-                 window.location.href="/?error=Your session has expired, please login";
+                 window.location.href=`/?error=${error.response.data.message || "Unauthorized Error"}`;
                 break;
             default:
                 break;
